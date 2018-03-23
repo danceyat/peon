@@ -5,11 +5,16 @@
   window.hasRun = true;
 
   function downloadAllImages() {
-    console.log(`begin download`);
+    console.info(`begin download image`);
+    var node = $("input#ContentPlaceHolder1_BLNoTextBox");
+    if (node != null)
+      console.info(`ok`);
+    //console.info(`${serialNo}`);
+    console.info(`end download image`);
   }
 
   function downloadAllPDFs() {
-
+    console.info(`begin download PDF`);
   }
 
   browser.runtime.onMessage.addListener((message) => {
