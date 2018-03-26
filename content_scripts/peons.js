@@ -6,6 +6,17 @@
 
   function downloadImage(boxNo, imgLink) {
     console.info(`working on box: ${boxNo}`);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', imgLink);
+
+/*
+    xhr.setRequestHeader('host', window.location.host);
+    xhr.setRequestHeader('Referer', window.location.href);
+    xhr.setRequestHeader('Upgrade-Insecure-Requests', '1');
+    xhr.setRequestHeader('User-Agent', navigator.userAgent);
+*/
+    xhr.send();
   }
 
   function downloadAllImages() {
@@ -32,6 +43,7 @@
 
       for (var boxNo in imgLinks) {
         downloadImage(boxNo, imgLinks[boxNo]);
+        break;
       }
 
       console.info(`>>> finish downloading image <<<`);
