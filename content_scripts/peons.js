@@ -4,13 +4,41 @@
   }
   window.hasRun = true;
 
+  function downloadImage(boxNo, imgLink) {
+    console.info(`working on box: ${boxNo}`);
+  }
+
   function downloadAllImages() {
-    console.info(`begin download image`);
-    var node = $("input#ContentPlaceHolder1_BLNoTextBox");
-    if (node != null)
-      console.info(`ok`);
-    //console.info(`${serialNo}`);
-    console.info(`end download image`);
+    try {
+      console.info(`>>> begin downloading image <<<`);
+      //var node = $("input#ContentPlaceHolder1_BLNoTextBox");
+      var serialNo = document.getElementById("ContentPlaceHolder1_BLNoTextBox").value;
+      console.info(`obtain serial: ${serialNo}`);
+
+      var rows = document.getElementById("ContentPlaceHolder1_GridView1").getElementsByClassName("gvr");
+      var imgLinks = {};
+      for (var i = 0; i < rows.length; i++) {
+        if (rows[i].hasAttribute("class") && rows[i].getAttribute("class") === "gvr") {
+          var boxNo = rows[i].children[1].children[0].innerHTML;
+          var imgLink = rows[i].children[9].children[0].href;
+          if (boxNo in imgLinks) {
+            throw "duplicated box numbers detected";
+          }
+          imgLinks[boxNo] = imgLink;
+          //console.info(`box: ${boxNo}, link: ${imgLink}`);
+        }
+      }
+      console.info(`obtain ${imgLinks.length} boxNo`);
+
+      for (var boxNo in imgLinks) {
+        downloadImage(boxNo, imgLinks[boxNo]);
+      }
+
+      console.info(`>>> finish downloading image <<<`);
+    } catch (ex) {
+      console.error(`${ex}`);
+      console.info(`aborting...`);
+    }
   }
 
   function downloadAllPDFs() {
