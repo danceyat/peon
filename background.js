@@ -1,38 +1,36 @@
-function handleMsg(message) {
-  console.info(`begin background`);
-
-  var imgHeader = {};
-  imgHeader['Accept'] = '';
-  imgHeader['Content-Type'] = 'application/x-www-form-urlencoded';
-  imgHeader['Upgrade-Insecure-Requests'] = '1';
-
-  var imgBody = '__VIEWSTATE'+'='+message.viewstate+'&'+'__EVENTVALIDATION'+'='+message.eventvalidation+'&'+message.btndownall;
+/**
+  * @method
+  * @param {Type} url resource url
+  * @param {Type} body request body
+  * @param {Type} filename the name of finally saved file
+  * @returns
+  * @desc This function set a GET request to get some query string which<br/>
+  * will be used later, after that downloading will start.
+  */
+function downloadImageBackground(url, body, filename) {
+  console.info(`start downloading '${filename}' ...`);
 
   browser.downloads.download({
-    url : message.imgLink,
-    filename : message.boxNo + '.zip',
-    saveAs : false,
-    method : 'POST',
-    headers : [
+    url: url,
+    filename: filename,
+    saveAs: false,
+    method: 'POST',
+    headers: [
       {
-      	'name': 'Accept',
-      	'value': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-      },
-      {
-      	'name': 'Content-Type',
-      	'value': 'application/x-www-form-urlencoded'
-      },
-      {
-      	'name': 'Upgrade-Insecure-Requests',
-      	'value': '1'
+        'name': 'Content-Type',
+        'value': 'application/x-www-form-urlencoded'
       }
     ],
-    body : imgBody
+    body: body
   }).then(() => {
-    console.info(`downloading ${message.boxNo}.zip ...`);
+    console.info(`'${filename}' downloaded`);
+  }, () => {
+    console.error(`failed to download '${filename}'`);
   });
-
-  console.info(`end background`);
 }
 
-browser.runtime.onMessage.addListener(handleMsg);
+browser.runtime.onMessage.addListener((message) => {
+  if (message.command === 'download') {
+    downloadImageBackground(message.url, message.body, message.filename);
+  }
+});

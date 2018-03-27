@@ -1,23 +1,23 @@
 html, body {
-  width: 150px;
+  width: 120px;
 }
 
 .button {
   margin: 3% auto;
-  padding: 4px;
+  padding: auto;
   text-align: center;
-  font-size: 0.8em;
+  font-size: 1em;
   cursor: pointer;
 }
 
-.button:hover {
-  background-color: #CFF2F2;
+.button {
+  background-color: #FFFFFF;
 }
 
-.button {
-  background-color: #E5F2F2;
+.button:hover {
+  background-color: #F0F0F0;
 }
 
 .button:active {
-  background-color: #B9F2F2;
+  background-color: #E8E8E8;
 }
