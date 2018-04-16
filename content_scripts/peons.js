@@ -63,6 +63,16 @@
       for (var i = 0; i < rows.length; i++) {
         var container = rows[i].children[1].children[0].innerHTML;
         var url = rows[i].children[9].children[0].href;
+
+        /**
+         * there may be more than one record for a container, for example,
+         * customer changes the departure time, in which case we can just
+         * ignore the empty href
+         */
+        if (url == "") {
+          continue;
+        }
+
         if (container in urls) {
           throw "duplicated box numbers detected";
         }
